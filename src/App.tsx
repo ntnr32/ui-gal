@@ -1,34 +1,46 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
 import './App.css'
+import { Section } from './components'
+import { motion, useInView, useScroll } from 'framer-motion'
+import { useRef, useState } from 'react';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { scrollYProgress } = useScroll();
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div className="">
+      <motion.div
+        className="fixed top-0 left-0 right-0 bg-red-600 h-2 origin-[0%] z-10"
+        style={{ scaleX: scrollYProgress }}
+      ></motion.div>
+      <Section className='bg-green-400'>
+        Section 1
+      </Section>
+      <Section className='bg-gray-500'>
+        Section 2
+      </Section>
+      <Section className='bg-yellow-500'>
+        Section 3
+      </Section>
+      <Section className='bg-blue-500'>
+        Section 4
+      </Section>
     </div>
   )
 }
+
+function ViewPortSection({ id }: any) {
+  const ref = useRef(null);
+  const isInView = useInView(ref)
+
+  console.log(isInView, id);
+
+  return (
+    <div ref={ref} className="w-full h-screen">
+      Section {id}
+      <p>IsInView - {isInView}</p>
+    </div>
+  )
+}
+
 
 export default App
